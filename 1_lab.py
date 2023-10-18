@@ -5,6 +5,8 @@ def number_to_words(number):
     print(number)
     result = ''
     milliards = number // 1000000000
+    
+
     # Миллиарды
     # еденицы
     if milliards != 0:
@@ -13,18 +15,18 @@ def number_to_words(number):
                 result += t1[milliards - 1] + ' ' + tsuf[6]
                 
             elif (2 <= milliards <= 4):
-                result += t1[milliards - 1] + ' ' + tsuf[6] + 'a '
+                result += t1[milliards - 1] + ' ' + tsuf[6] + end_word(milliards)
                 
             elif (milliards > 4):
-                result += t1[milliards - 1] + ' ' + tsuf[6] + 'ов '
+                result += t1[milliards - 1] + ' ' + tsuf[6] + end_word(milliards)
             number = int(str(number)[1:])
         #десятки
         elif len(str(milliards)) == 2 and milliards != 10:
-            result += tens(milliards) + ' миллиардов '
+            result += tens(milliards) + ' ' + tsuf[6] + end_word(milliards)
             number = int(str(number)[2:])
         #сотни
         elif len(str(milliards)) == 3:
-            result += hundreds(milliards) + ' миллиардов '
+            result += hundreds(milliards) + ' ' + tsuf[6] + end_word(milliards)
             number = int(str(number)[3:])
     
     print(number)
@@ -37,42 +39,43 @@ def number_to_words(number):
                 result += t1[millions - 1] + ' ' + tsuf[7]
                 number = int(str(number)[1:])
             elif (2 <= millions <= 4):
-                result += t1[millions - 1] + ' ' + tsuf[7] + 'a '
+                result += t1[millions - 1] + ' ' + tsuf[7] + end_word(millions)
                 
             elif (millions > 4):
-                result += t1[millions - 1] + ' ' + tsuf[7] + 'ов '
+                result += t1[millions - 1] + ' ' + tsuf[7] + end_word(millions)
             number = int(str(number)[1:])
         #десятки
         elif len(str(millions)) == 2 and millions != 10:
-            result += tens(millions) + ' миллионов '
+            result += tens(millions) + ' ' + tsuf[7] + end_word(millions)
             number = int(str(number)[2:])
         #сотни
         elif len(str(millions)) == 3:
-            result += hundreds(millions) + ' миллионов '
+            result += hundreds(millions) + ' ' + tsuf[7] + end_word(millions)
             number = int(str(number)[3:])
 
-    number = int(str(number)[3:])
     print(number)
 
     # Тысячи
+    print('AAAAAAAAAAAAAAAAAAAAA')
     thousands = number // 1000
     if thousands != 0:
         if len(str(thousands)) == 1 or thousands == 10:
             if (thousands == 1):
-                result += t1[thousands - 1] + ' ' + tsuf[5]
+                result += 'одна' + ' ' + tsuf[5] + end_word_for_thousent(thousands)
             elif (2 <= thousands <= 4):
-                result += t1[thousands - 1] + ' ' + tsuf[5]
+                result += t1[thousands - 1] + ' ' + tsuf[5] + end_word_for_thousent(thousands)
             elif (thousands > 4):
-                result += t1[thousands - 1] + ' ' + tsuf[5]
+                result += t1[thousands - 1] + ' ' + tsuf[5] + end_word_for_thousent(thousands)
             number = int(str(number)[1:])
         #десятки
         elif len(str(thousands)) == 2 and thousands != 10:
-            result += tens(thousands) + ' тысяч '
+            result += tens(thousands) + ' ' + tsuf[5] + end_word_for_thousent(thousands)
             number = int(str(number)[2:])
         #сотни
         elif len(str(thousands)) == 3:
-            result += hundreds(thousands) + ' тысяч '
+            result += hundreds(thousands) + ' ' + tsuf[5] + end_word_for_thousent(thousands)
             number = int(str(number)[3:])
+    print(number)
 
     # сотни
     if len(str(number)) == 3:
@@ -81,6 +84,10 @@ def number_to_words(number):
     # десятки
     if len(str(number)) == 2:
         result += tens(number)
+
+    # еденицы
+    if len(str(number)) == 1:
+        result += t1[number-1]
 
     return result
 
@@ -132,6 +139,24 @@ def hundreds(number):
     if int(str(number)[0]) > 4: 
         result = t1[int(str(number)[0]) - 1] + tsuf[4] + ' ' + tens(int(str(number)[1:]))
     return result
+
+def end_word(number):
+    if int(str(number)[len(str(number)) - 1]) == 1:
+        end_word = ' '
+    elif 2 <= int(str(number)[len(str(number)) - 1]) <= 4:
+        end_word = 'а '
+    elif int(str(number)[len(str(number)) - 1]) > 4:
+        end_word = 'ов '
+    return end_word
+
+def end_word_for_thousent(number):
+    if int(str(number)[len(str(number)) - 1]) == 1:
+        end_word = 'а '
+    elif 2 <= int(str(number)[len(str(number)) - 1]) <= 4:
+        end_word = 'и '
+    elif int(str(number)[len(str(number)) - 1]) > 4:
+        end_word = ' '
+    return end_word
 
 # Ввод числа от пользователя
 number = int(input('Введите число (1-999 000 000 000): '))
